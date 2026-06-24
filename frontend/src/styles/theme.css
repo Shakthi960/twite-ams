@@ -1,0 +1,201 @@
+body {
+  background: #f8fafc;
+  min-height: 100vh;
+  color: #23034e;
+}
+
+/* Navbar */
+
+.navbar {
+  background: white !important;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.navbar-brand,
+.nav-link {
+  color: #23014f !important;
+  font-weight: 600;
+}
+
+.nav-link:hover {
+  color: #7D2AE8 !important;
+}
+
+option {
+    color: #23034e !important;
+}
+
+/* Cards */
+
+.card {
+  background: white;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* Inputs */
+
+.form-control,
+.form-select {
+  background: white;
+  color: #7D2AE8;
+  border: 1px solid #d1d5db;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #7D2AE8;
+  box-shadow: 0 0 0 0.2rem rgba(68,160,141,0.25);
+}
+
+/* Tables */
+
+.table {
+  background: white;
+  color: #7D2AE8;
+}
+
+.table thead {
+  background: #f3f4f6;
+}
+
+.table th {
+  color: #7D2AE8;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+/* Main Green Button */
+
+.btn-success {
+  background: linear-gradient(
+    135deg,
+    #7D2AE8,
+    #7D2AE8
+  );
+  border: none;
+}
+
+.btn-success:hover {
+  opacity: 0.9;
+}
+
+/* Edit */
+.btn,
+.btn-primary {
+  color: #ffffff !important;
+  background: linear-gradient(
+    135deg,
+    #7D2AE8,
+    #5b1cb3
+  );
+
+  border: none;
+
+  transition:
+    all 0.35s ease-in-out;
+}
+
+.btn:hover,
+.btn-primary:hover {
+
+  background: linear-gradient(
+    135deg,
+    #8f45ff,
+    #32046f
+  );
+
+  color: #ffffff !important;
+
+  transform:
+    translateY(-2px)
+    scale(1.03);
+
+}
+
+.btn:active,
+.btn-primary:active {
+
+  transform:
+    translateY(0)
+    scale(0.98);
+
+  transition:
+    all 0.1s ease;
+}
+
+.card,
+.form-control,
+.form-select,
+.nav-link,
+.btn {
+  transition:
+    all 0.3s ease-in-out;
+}
+
+/* Checkout */
+
+.btn-warning {
+  background: #7D2AE8;
+  color: white;
+  border: none;
+}
+
+.btn-warning:hover {
+  background: #7D2AE8;
+}
+
+/* Delete */
+
+.btn-danger {
+  border: none;
+}
+
+/* Dashboard Cards */
+
+.stat-card {
+  background: white;
+  border-left: 5px solid #7D2AE8;
+  text-align: center;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.stat-card h2 {
+  color: #7D2AE8;
+  font-weight: bold;
+}
+
+.stat-card h5 {
+  color: #6b7280;
+}
+
+/* Alerts */
+
+.alert-success {
+  background: #dcfce7;
+  color: #7D2AE8;
+  border: none;
+}
+
+.alert-danger {
+  background: #fee2e2;
+  color: #991b1b;
+  border: none;
+}
+
+.alert-info {
+  background: #dbeafe;
+  color: #1e40af;
+  border: none;
+}
+
+.alert-warning {
+  background: #fef3c7;
+  color: #92400e;
+  border: none;
+}
