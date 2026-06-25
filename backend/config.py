@@ -1,13 +1,17 @@
+from urllib.parse import quote_plus
 from datetime import timedelta
+
+password = quote_plus("Kshakthi960@#")
 
 class Config:
 
     SECRET_KEY = "twite_secret_key"
-
     JWT_SECRET_KEY = "twite_jwt_secret"
 
     SQLALCHEMY_DATABASE_URI = (
-        "mysql+pymysql://kvvsh1:Kshakthi960%40%23@kvvsh1.mysql.database.azure.com:3306/attendance_db?ssl_ca=ssl"
+        f"mysql+pymysql://kvvsh1:{password}"
+        "@kvvsh1.mysql.database.azure.com:3306/attendance_db"
+        "?ssl_mode=REQUIRED"
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
