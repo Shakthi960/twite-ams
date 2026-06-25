@@ -1,17 +1,19 @@
-from urllib.parse import quote_plus
+import os
 from datetime import timedelta
-
-password = quote_plus("Kshakthi960@#")
 
 class Config:
 
-    SECRET_KEY = "twite_secret_key"
-    JWT_SECRET_KEY = "twite_jwt_secret"
+    SECRET_KEY = os.getenv("SECRET_KEY")
+
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
     SQLALCHEMY_DATABASE_URI = (
-        f"mysql+pymysql://kvvsh1:{password}"
-        "@kvvsh1.mysql.database.azure.com:3306/attendance_db"
-        "?ssl_mode=REQUIRED&charset=utf8mb4"
+        f"mysql+pymysql://"
+        f"{os.getenv('DB_USER')}:"
+        f"{os.getenv('DB_PASSWORD')}@"
+        f"{os.getenv('DB_HOST')}:3306/"
+        f"{os.getenv('DB_NAME')}"
+        "?ssl_mode=REQUIRED"
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
