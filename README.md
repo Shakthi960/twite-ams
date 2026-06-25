@@ -304,15 +304,23 @@ Add screenshots here before submission.
 Example
 
 ```
-screenshots/
+# Screenshots
 
-dashboard.png
+## Login
 
-employees.png
+![Login](screenshots/login_page.png)
 
-attendance.png
+## Dashboard
 
-login.png
+![Dashboard](screenshots/dashboard.png)
+
+## Employee Management
+
+![Employees](screenshots/employee_page.png)
+
+## Attendance Management
+
+![Attendance](screenshots/attendance_page.png)
 ```
 
 ---
