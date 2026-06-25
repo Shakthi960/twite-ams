@@ -239,12 +239,16 @@
 // }
 
 // export default Dashboard;
+import Navbar from "../components/navbar";
 
 function Dashboard() {
   return (
-    <div>
-      <h1>Dashboard Works</h1>
-    </div>
+    <>
+      <Navbar />
+      <h1 style={{ color: "red", padding: "50px" }}>
+        DASHBOARD WORKS
+      </h1>
+    </>
   );
 }
 
