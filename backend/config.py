@@ -13,7 +13,6 @@ class Config:
         f"{os.getenv('DB_PASSWORD')}@"
         f"{os.getenv('DB_HOST')}:3306/"
         f"{os.getenv('DB_NAME')}"
-        "?ssl_mode=REQUIRED"
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
