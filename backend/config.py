@@ -9,6 +9,7 @@ print("DB_HOST     :", repr(os.getenv("DB_HOST")))
 print("DB_NAME     :", repr(os.getenv("DB_NAME")))
 print("=" * 60)
 
+user = quote_plus(os.getenv("DB_USER"))
 password = quote_plus(os.getenv("DB_PASSWORD"))
 
 print(
@@ -22,8 +23,8 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = (
         f"mysql+pymysql://"
-        f"{os.getenv('DB_USER')}:{password}"
-        f"@{os.getenv('DB_HOST')}:3306/"
+        "mysql+pymysql://{user}:{password}"
+        f"@{os.getenv('DB_HOST')}:3306/{os.getenv('DB_NAME')}"
         f"{os.getenv('DB_NAME')}"
     )
 
