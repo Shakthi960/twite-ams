@@ -57,6 +57,15 @@ def create_employee():
 )
 @jwt_required()
 def get_employees():
+    """
+    Get Employees
+    ---
+    tags:
+      - Employees
+    responses:
+      200:
+        description: Employee List
+    """
 
     page = request.args.get(
         "page",
@@ -81,6 +90,16 @@ def get_employees():
         "department",
         ""
     )
+
+    status = request.args.get(
+        "status",
+        ""
+    )
+
+    if status:
+        query = query.filter(
+            Employee.status == status
+        )
 
     if search:
         query = query.filter(

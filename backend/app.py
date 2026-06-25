@@ -5,7 +5,11 @@ from flask_jwt_extended import JWTManager
 from config import Config
 from models import db
 
+from flasgger import Swagger
+
 app = Flask(__name__)
+
+Swagger(app)
 
 app.config.from_object(Config)
 

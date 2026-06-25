@@ -39,7 +39,7 @@ option {
 .form-control,
 .form-select {
   background: white;
-  color: #7D2AE8;
+  color: #23014f;
   border: 1px solid #d1d5db;
 }
 
@@ -73,10 +73,8 @@ option {
 
 .btn-success {
   background: linear-gradient(
-    135deg,
-    #7D2AE8,
-    #7D2AE8
-  );
+        90deg,#8037e0,#8b33ff,#8238e3
+    );
   border: none;
 }
 
@@ -89,10 +87,8 @@ option {
 .btn-primary {
   color: #ffffff !important;
   background: linear-gradient(
-    135deg,
-    #7D2AE8,
-    #5b1cb3
-  );
+        90deg,#8037e0,#8b33ff,#8238e3
+    );
 
   border: none;
 
@@ -104,10 +100,8 @@ option {
 .btn-primary:hover {
 
   background: linear-gradient(
-    135deg,
-    #8f45ff,
-    #32046f
-  );
+        90deg,#8037e0,#5b15b7,#8238e3
+    );
 
   color: #ffffff !important;
 
@@ -139,14 +133,42 @@ option {
 
 /* Checkout */
 
-.btn-warning {
-  background: #7D2AE8;
-  color: white;
-  border: none;
+/* Update Employee */
+
+.btn-warning{
+    background: linear-gradient(
+        90deg,#fb0b0b,#e8472a,#fb0b0b
+    );
+    border: none;
+    color: #ffffff;
+    transition: all 0.35s ease;
 }
 
-.btn-warning:hover {
-  background: #7D2AE8;
+.btn-warning:hover{
+    background: linear-gradient(
+        90deg,#e85d2a,#fb0b0b,#e85d2a
+    );
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Add Employee */
+
+.btn-success{
+    background: linear-gradient(
+        90deg,#8037e0,#8b33ff,#8238e3
+    );
+    border: none;
+    color: #ffffff;
+    transition: all 0.35s ease;
+}
+
+.btn-success:hover{
+    background: linear-gradient(
+        90deg,#8037e0,#6b25c5,#8238e3
+    );
+    color: #ffffff;
+    transform: translateY(-2px);
 }
 
 /* Delete */
@@ -198,4 +220,10 @@ option {
   background: #fef3c7;
   color: #92400e;
   border: none;
+}
+
+thead p {
+  font-size: 12px;
+  background-color: white;
+  padding-top:10px;
 }

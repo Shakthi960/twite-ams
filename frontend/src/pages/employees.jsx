@@ -6,6 +6,15 @@ function Employees() {
   const [message, setMessage] = useState("");
   const [alertType, setAlertType] = useState("success");
   const [employees, setEmployees] = useState([]);
+  const [search, setSearch] = useState("");
+  const [sortField, setSortField] = useState("employee_id");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [department, setDepartment] = useState("");
+  const [status, setStatus] = useState("");
+
+  const perPage = 5;
 
   const [editingId, setEditingId] =
     useState(null);
@@ -21,17 +30,23 @@ function Employees() {
 
   useEffect(() => {
     loadEmployees();
-  }, []);
+  }, [page, department, status]);
 
   const loadEmployees = async () => {
 
-    const res =
-      await api.get("/employees");
+  const res = await api.get(
+    `/employees?page=${page}&per_page=${perPage}&department=${department}&status=${status}`
+  );
 
-    setEmployees(
-      res.data.employees
-    );
-  };
+  setEmployees(
+    res.data.employees
+  );
+
+  setTotal(
+    res.data.total
+  );
+
+};
 
   const saveEmployee = async () => {
 
@@ -101,21 +116,43 @@ function Employees() {
 
   const deleteEmployee = async (id) => {
 
-  await api.delete(
-    `/employees/${id}`
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this employee?"
   );
 
-  setAlertType("warning");
+  if (!confirmDelete) {
+    return;
+  }
 
-  setMessage(
-    "Employee Deleted Successfully"
-  );
+  try {
 
-  loadEmployees();
+    await api.delete(
+      `/employees/${id}`
+    );
 
-  setTimeout(() => {
-    setMessage("");
-  }, 3000);
+    setAlertType("success");
+
+    setMessage(
+      "Employee deleted successfully"
+    );
+
+    loadEmployees();
+
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
+
+  } catch (err) {
+
+    setAlertType("danger");
+
+    setMessage(
+      err.response?.data?.message ||
+      "Failed to delete employee"
+    );
+
+  }
+
 };
 
   const clearForm = () => {
@@ -131,6 +168,26 @@ function Employees() {
       status: "Active",
     });
   };
+
+  const handleSort = (field) => {
+
+  if (sortField === field) {
+
+    setSortOrder(
+      sortOrder === "asc"
+        ? "desc"
+        : "asc"
+    );
+
+  } else {
+
+    setSortField(field);
+
+    setSortOrder("asc");
+
+  }
+
+};
 
   return (
     <>
@@ -231,22 +288,200 @@ function Employees() {
 
         </div>
 
-        <table className="table table-bordered">
 
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="🔍 Search by Name, Email or Department"
+                value={search}
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
+              />
+            </div>
+
+                <div className="row mb-3">
+
+                  <div className="col-md-4">
+
+                    <select
+                      className="form-select"
+                      value={department}
+                      onChange={(e) => {
+
+                        setDepartment(
+                          e.target.value
+                        );
+
+                        setPage(1);
+
+                      }}
+                    >
+
+                      <option value="">
+                        All Departments
+                      </option>
+
+                      <option value="GenAI">
+                        GenAI
+                      </option>
+
+                      <option value="HR">
+                        HR
+                      </option>
+
+                      <option value="Software Developer">
+                        Software Developer
+                      </option>
+
+                      <option value="Sales">
+                        Sales
+                      </option>
+
+                      <option value="UIUX">
+                        UIUX
+                      </option>
+
+                    </select>
+
+                  </div>
+                  <div className="col-md-4">
+
+  <select
+    className="form-select"
+    value={status}
+    onChange={(e) => {
+
+      setStatus(
+        e.target.value
+      );
+
+      setPage(1);
+
+    }}
+  >
+
+    <option value="">
+      All Status
+    </option>
+
+    <option value="Active">
+      Active
+    </option>
+
+    <option value="Inactive">
+      Inactive
+    </option>
+
+  </select>
+
+</div>
+
+                </div>
+
+        <table className="table table-bordered">
+                
           <thead>
+            <p>"click Column names for sorting"</p>
             <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Department</th>
-              <th>Designation</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("employee_id")}
+>
+ID{sortField==="employee_id"
+? (sortOrder==="asc" ? "▲" : "▼")
+: ""}
+</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("employee_name")}
+>
+Name {sortField==="employee_name"
+? (sortOrder==="asc" ? "▲" : "▼")
+: ""}
+</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("email")}
+>
+Email{sortField==="email"
+? (sortOrder==="asc" ? "▲" : "▼")
+: ""}
+</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("department")}
+>
+Department{sortField==="department"
+? (sortOrder==="asc" ? "▲" : "▼")
+: ""}
+</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("designation")}
+>
+Designation{sortField==="designation"
+? (sortOrder==="asc" ? "▲" : "▼")
+: ""}
+</th>
               <th>Action</th>
             </tr>
           </thead>
 
           <tbody>
 
-            {employees.map((emp) => (
+            {employees
+
+            .filter((emp) =>
+
+                emp.employee_name
+                  .toLowerCase()
+                  .includes(search.toLowerCase())
+
+                ||
+
+                emp.email
+                  .toLowerCase()
+                  .includes(search.toLowerCase())
+
+                ||
+
+                emp.department
+                  .toLowerCase()
+                  .includes(search.toLowerCase())
+
+                ||
+
+                emp.designation
+                  .toLowerCase()
+                  .includes(search.toLowerCase())
+
+            )
+
+            .sort((a,b)=>{
+
+                let valueA=a[sortField];
+                let valueB=b[sortField];
+
+                if(typeof valueA==="string"){
+
+                    valueA=valueA.toLowerCase();
+                    valueB=valueB.toLowerCase();
+
+                }
+
+                if(sortOrder==="asc"){
+
+                    return valueA>valueB?1:-1;
+
+                }
+
+                return valueA<valueB?1:-1;
+
+            })
+
+            .map((emp)=>(
 
               <tr
                 key={
@@ -304,6 +539,45 @@ function Employees() {
           </tbody>
 
         </table>
+
+            <div className="d-flex justify-content-between align-items-center mt-3">
+
+  <button
+    className="btn btn-secondary"
+    disabled={page === 1}
+    onClick={() =>
+      setPage(page - 1)
+    }
+  >
+    Previous
+  </button>
+
+  <span>
+
+    Page {page} of {
+
+      Math.ceil(
+        total / perPage
+      )
+
+    }
+
+  </span>
+
+  <button
+    className="btn btn-secondary"
+    disabled={
+      page >=
+      Math.ceil(total / perPage)
+    }
+    onClick={() =>
+      setPage(page + 1)
+    }
+  >
+    Next
+  </button>
+
+</div>
 
       </div>
     </>

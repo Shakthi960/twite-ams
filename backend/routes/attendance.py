@@ -12,6 +12,11 @@ from models import Employee
 
 from datetime import datetime
 
+import csv
+import io
+
+from flask import send_file
+
 attendance_bp = Blueprint(
     "attendance",
     __name__
@@ -125,11 +130,27 @@ def attendance_summary():
 @jwt_required()
 def get_attendance():
 
-    records = Attendance.query.all()
+    page = request.args.get(
+        "page",
+        1,
+        type=int
+    )
+
+    per_page = request.args.get(
+        "per_page",
+        5,
+        type=int
+    )
+
+    records = Attendance.query.paginate(
+        page=page,
+        per_page=per_page,
+        error_out=False
+    )
 
     result = []
 
-    for r in records:
+    for r in records.items:
 
         result.append({
 
@@ -157,7 +178,10 @@ def get_attendance():
                 r.attendance_status
         })
 
-    return jsonify(result)
+    return jsonify({
+        "attendance": result,
+        "total": records.total
+    })
 
 @attendance_bp.route(
     "/attendance/<int:employee_id>",
@@ -258,3 +282,65 @@ def update_attendance(attendance_id):
         "message":
         "Check Out Updated Successfully"
     })
+
+@attendance_bp.route(
+    "/attendance/export",
+    methods=["GET"]
+)
+@jwt_required()
+def export_attendance():
+
+    output = io.StringIO()
+
+    writer = csv.writer(output)
+
+    writer.writerow([
+        "Employee ID",
+        "Employee Name",
+        "Date",
+        "Check In",
+        "Check Out",
+        "Status"
+    ])
+
+    records = (
+        db.session.query(
+            Attendance,
+            Employee.employee_name
+        )
+        .join(
+            Employee,
+            Attendance.employee_id == Employee.employee_id
+        )
+        .order_by(
+            Attendance.attendance_date.desc()
+        )
+        .all()
+    )
+
+    for attendance, employee_name in records:
+
+        writer.writerow([
+            attendance.employee_id,
+            employee_name,
+            attendance.attendance_date,
+            attendance.check_in,
+            attendance.check_out,
+            attendance.attendance_status
+        ])
+
+    output.seek(0)
+
+    return send_file(
+
+        io.BytesIO(
+            output.getvalue().encode()
+        ),
+
+        mimetype="text/csv",
+
+        as_attachment=True,
+
+        download_name="attendance_report.csv"
+
+    )

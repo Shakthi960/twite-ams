@@ -1,10 +1,7 @@
-from flask import Blueprint
-from flask import jsonify
-
+from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required
 
-from models import Employee
-from models import Attendance
+from models import Employee, Attendance
 
 from datetime import date
 
@@ -12,6 +9,7 @@ dashboard_bp = Blueprint(
     "dashboard",
     __name__
 )
+
 
 @dashboard_bp.route(
     "/dashboard",
@@ -46,12 +44,25 @@ def dashboard():
 
         dept = emp.department
 
-        departments[dept] = (
-            departments.get(
-                dept,
-                0
-            ) + 1
-        )
+        if dept in departments:
+
+            departments[dept] += 1
+
+        else:
+
+            departments[dept] = 1
+
+    department_list = []
+
+    for dept, count in departments.items():
+
+        department_list.append({
+
+            "department": dept,
+
+            "count": count
+
+        })
 
     return jsonify({
 
@@ -68,6 +79,6 @@ def dashboard():
             absent_today,
 
         "departmentWise":
-            departments
-    })
+            department_list
 
+    })

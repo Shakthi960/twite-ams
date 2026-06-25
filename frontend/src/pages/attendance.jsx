@@ -7,6 +7,14 @@ function Attendance() {
   const [records, setRecords] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [message, setMessage] = useState("");
+  const [search, setSearch] = useState("");
+  const [sortField, setSortField] = useState("attendance_id");
+const [sortOrder, setSortOrder] = useState("asc");
+const [page, setPage] = useState(1);
+const [total, setTotal] = useState(0);
+
+const perPage = 5;
+
   const [alertType, setAlertType] = useState("success");
   const [form, setForm] = useState({
         employee_id: "",
@@ -18,16 +26,23 @@ function Attendance() {
   useEffect(() => {
     loadAttendance();
     loadEmployees();
-  }, []);
+  }, [page]);
 
   const loadAttendance = async () => {
-    try {
-      const res = await api.get("/attendance");
-      setRecords(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
+  const res = await api.get(
+    `/attendance?page=${page}&per_page=${perPage}`
+  );
+
+  setRecords(
+    res.data.attendance
+  );
+
+  setTotal(
+    res.data.total
+  );
+
+};
 
   const loadEmployees = async () => {
     try {
@@ -140,6 +155,84 @@ function Attendance() {
     }
   };
 
+  const exportCSV = async () => {
+
+  try {
+
+    const token =
+      localStorage.getItem("token");
+
+    const response =
+      await fetch(
+
+        "http://127.0.0.1:5000/attendance/export",
+
+        {
+
+          headers: {
+
+            Authorization:
+              `Bearer ${token}`
+
+          }
+
+        }
+
+      );
+
+    const blob =
+      await response.blob();
+
+    const url =
+      window.URL.createObjectURL(
+        blob
+      );
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+      "attendance_report.csv";
+
+    link.click();
+
+    window.URL.revokeObjectURL(
+      url
+    );
+
+  }
+
+  catch (err) {
+
+    console.log(err);
+
+  }
+
+};
+
+
+  const handleSort = (field) => {
+
+  if (sortField === field) {
+
+    setSortOrder(
+      sortOrder === "asc"
+        ? "desc"
+        : "asc"
+    );
+
+  } else {
+
+    setSortField(field);
+
+    setSortOrder("asc");
+
+  }
+
+};
+
   return (
     <>
       <Navbar />
@@ -231,17 +324,107 @@ function Attendance() {
 
         </div>
 
+        <div className="mb-3">
+
+          <input
+            type="text"
+            className="form-control"
+            placeholder="🔍 Search by Employee, Date or Status"
+            value={search}
+            onChange={(e) =>
+              setSearch(e.target.value)
+            }
+          />
+
+        </div>
+
+        <div className="d-flex justify-content-end mb-3">
+
+          <button
+
+            className="btn btn-success"
+
+            onClick={exportCSV}
+
+          >
+
+            Export CSV
+
+          </button>
+
+        </div>
+
         <table className="table table-bordered">
 
           <thead>
-
+            <p>"click Column names for sorting"</p>
             <tr>
-              <th>ID</th>
-              <th>Employee</th>
-              <th>Date</th>
-              <th>Check In</th>
-              <th>Check Out</th>
-              <th>Status</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("attendance_id")}
+>
+ID
+{sortField==="attendance_id"
+? (sortOrder==="asc"
+? " ▲"
+: " ▼")
+: ""}
+</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("employee_name")}
+>
+Employee
+{sortField==="employee_name"
+? (sortOrder==="asc"
+? " ▲"
+: " ▼")
+: ""}
+</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("attendance_date")}
+>
+Date
+{sortField==="attendance_date"
+? (sortOrder==="asc"
+? " ▲"
+: " ▼")
+: ""}
+</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("check_in")}
+>
+Check In
+{sortField==="check_in"
+? (sortOrder==="asc"
+? " ▲"
+: " ▼")
+: ""}
+</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("check_out")}
+>
+Check Out
+{sortField==="check_out"
+? (sortOrder==="asc"
+? " ▲"
+: " ▼")
+: ""}
+</th>
+              <th
+style={{cursor:"pointer"}}
+onClick={()=>handleSort("attendance_status")}
+>
+Status
+{sortField==="attendance_status"
+? (sortOrder==="asc"
+? " ▲"
+: " ▼")
+: ""}
+</th>
               <th>Action</th>
             </tr>
 
@@ -249,7 +432,51 @@ function Attendance() {
 
           <tbody>
 
-            {records.map((r) => (
+            {records
+
+.filter((r) =>
+
+    r.employee_name
+      .toLowerCase()
+      .includes(search.toLowerCase())
+
+    ||
+
+    r.attendance_date
+      .toLowerCase()
+      .includes(search.toLowerCase())
+
+    ||
+
+    r.attendance_status
+      .toLowerCase()
+      .includes(search.toLowerCase())
+
+)
+
+.sort((a,b)=>{
+
+    let valueA=a[sortField];
+    let valueB=b[sortField];
+
+    if(typeof valueA==="string"){
+
+        valueA=valueA.toLowerCase();
+        valueB=valueB.toLowerCase();
+
+    }
+
+    if(sortOrder==="asc"){
+
+        return valueA>valueB?1:-1;
+
+    }
+
+    return valueA<valueB?1:-1;
+
+})
+
+.map((r)=>(
 
               <tr
                 key={r.attendance_id}
@@ -320,6 +547,45 @@ function Attendance() {
           </tbody>
 
         </table>
+
+        <div className="d-flex justify-content-between align-items-center mt-3">
+
+  <button
+    className="btn btn-secondary"
+    disabled={page === 1}
+    onClick={() =>
+      setPage(page - 1)
+    }
+  >
+    Previous
+  </button>
+
+  <span>
+
+    Page {page} of {
+
+      Math.ceil(
+        total / perPage
+      )
+
+    }
+
+  </span>
+
+  <button
+    className="btn btn-secondary"
+    disabled={
+      page >=
+      Math.ceil(total / perPage)
+    }
+    onClick={() =>
+      setPage(page + 1)
+    }
+  >
+    Next
+  </button>
+
+</div>
 
       </div>
     </>
