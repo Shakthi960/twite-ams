@@ -186,11 +186,12 @@ const barData = {
     </h4>
 
     <div
-        style={{
-            width:"350px",
-            margin:"auto"
-        }}
-    >
+style={{
+width:"100%",
+maxWidth:"350px",
+margin:"auto"
+}}
+>
 
         <Pie data={pieData}/>
 
@@ -204,8 +205,9 @@ const barData = {
 
 <div
   style={{
-    height: "300px",
-    width: "50%"
+    width:"100%",
+maxWidth:"700px",
+margin:"auto"
   }}
 >
   <Bar

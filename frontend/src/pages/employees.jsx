@@ -379,11 +379,11 @@ function Employees() {
 </div>
 
                 </div>
-
+<div className="table-responsive">
+  <p>"click Column names for sorting"</p>
         <table className="table table-bordered">
                 
           <thead>
-            <p>"click Column names for sorting"</p>
             <tr>
               <th
 style={{cursor:"pointer"}}
@@ -539,6 +539,7 @@ Designation{sortField==="designation"
           </tbody>
 
         </table>
+        </div>
 
             <div className="d-flex justify-content-between align-items-center mt-3">
 

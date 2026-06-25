@@ -222,8 +222,404 @@ option {
   border: none;
 }
 
-thead p {
+p {
   font-size: 12px;
-  background-color: white;
-  padding-top:10px;
+}
+
+/* ===========================
+   Mobile Responsive
+=========================== */
+
+@media (max-width: 768px) {
+
+  .container{
+    padding-left:15px;
+    padding-right:15px;
+  }
+
+  h1{
+    font-size:26px;
+    text-align:center;
+  }
+
+  h2{
+    font-size:22px;
+  }
+
+  h4{
+    font-size:18px;
+  }
+
+  .card{
+    padding:15px !important;
+    margin-bottom:15px;
+  }
+
+  .stat-card{
+    margin-bottom:15px;
+  }
+
+  .row > div{
+    margin-bottom:15px;
+  }
+
+  .btn{
+    width:100%;
+    margin-bottom:10px;
+  }
+
+  .btn-sm{
+    width:auto;
+  }
+
+  .form-control,
+  .form-select{
+    font-size:15px;
+  }
+
+  .navbar-brand{
+    font-size:18px;
+  }
+
+  .navbar-nav{
+    margin-top:10px;
+  }
+
+  .table{
+    font-size:13px;
+  }
+
+  .table-responsive{
+    overflow-x:auto;
+  }
+
+}
+
+/* ===================================================
+   PROFESSIONAL NAVBAR
+=================================================== */
+
+.custom-navbar{
+
+    background:linear-gradient(135deg,#6C4CF1,#8B5CF6);
+
+    color:white;
+
+    padding:18px 40px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.15);
+
+    margin-bottom:30px;
+
+}
+
+.navbar-header{
+
+    text-align:center;
+
+}
+
+.navbar-header h2{
+
+    margin:0;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+}
+
+.navbar-header p{
+
+    margin-top:6px;
+
+    margin-bottom:25px;
+
+    opacity:.85;
+
+    font-size:15px;
+
+}
+
+.navbar-links{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:18px;
+
+    flex-wrap:wrap;
+
+}
+
+.navbar-links a{
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:10px 20px;
+
+    border-radius:10px;
+
+    transition:.3s;
+
+    font-size:16px;
+
+    font-weight:600;
+
+}
+
+.navbar-links a:hover{
+
+    background:rgba(255,255,255,.15);
+
+    color:white;
+
+}
+
+.active-link{
+
+    background:white;
+
+    color:#ffffff !important;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+
+}
+
+.logout-btn{
+
+    background:#EF4444;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:10px 24px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.logout-btn:hover{
+
+    background:#dc2626;
+
+    transform:translateY(-2px);
+
+}
+
+
+/* ===========================
+      MOBILE
+=========================== */
+
+@media (max-width:768px){
+
+.custom-navbar{
+
+    padding:20px;
+
+}
+
+.navbar-header h2{
+
+    font-size:26px;
+
+}
+
+.navbar-header p{
+
+    font-size:13px;
+
+    margin-bottom:20px;
+
+}
+
+.navbar-links{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:12px;
+
+}
+
+.navbar-links a{
+
+    text-align:center;
+
+    background:rgba(255,255,255,.12);
+
+    padding:12px;
+
+}
+
+.logout-btn{
+
+    grid-column:1/3;
+
+    width:100%;
+
+    padding:12px;
+
+}
+
+}
+
+
+/* ===========================
+      SMALL MOBILE
+=========================== */
+
+@media (max-width:480px){
+
+.navbar-header h2{
+
+    font-size:22px;
+
+}
+
+.navbar-links{
+
+    grid-template-columns:1fr;
+
+}
+
+.logout-btn{
+
+    grid-column:auto;
+
+}
+
+}
+
+/* ===========================
+      MOBILE
+=========================== */
+
+@media (max-width:768px){
+
+.custom-navbar{
+
+    padding:12px 15px;
+
+    margin-bottom:20px;
+
+}
+
+.navbar-header{
+
+    margin-bottom:10px;
+
+}
+
+.navbar-header h2{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    margin-bottom:0;
+
+}
+
+.navbar-header p{
+
+    display:none;
+
+}
+
+.navbar-links{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:8px;
+
+}
+
+.navbar-links a{
+
+    padding:8px 4px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    text-align:center;
+
+    border-radius:8px;
+
+    background:rgba(255,255,255,.12);
+
+}
+
+.logout-btn{
+
+    width:100%;
+
+    padding:8px 4px;
+
+    font-size:12px;
+
+    border-radius:8px;
+
+}
+
+}
+
+
+/* ===========================
+      VERY SMALL MOBILE
+=========================== */
+
+@media (max-width:480px){
+
+.custom-navbar{
+
+    padding:10px;
+
+}
+
+.navbar-header h2{
+
+    font-size:17px;
+
+}
+
+.navbar-links{
+
+    gap:5px;
+
+}
+
+.navbar-links a{
+
+    font-size:10px;
+
+    padding:7px 2px;
+
+}
+
+.logout-btn{
+
+    font-size:10px;
+
+    padding:7px 2px;
+
+}
+
 }
